@@ -10,5 +10,5 @@
     * Makefile
 
 ```console
-[`make dev` command]
+$ make dev
 ```
