@@ -22,10 +22,6 @@ export class SignInComponent {
     const { email, password } = this.signInForm.value;
 
     if (email == null || password == null) return;
-    const result = await this.signInService.signIn({ email, password });
-
-    if (result.token != null) {
-      console.log(result.token);
-    }
+    return this.signInService.signIn({ email, password });
   }
 }

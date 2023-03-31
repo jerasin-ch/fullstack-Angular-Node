@@ -1,6 +1,6 @@
 import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
@@ -11,6 +11,8 @@ import { ProductDetailService } from './product-details/product-details.service'
 import { HomeModule } from './home/home.module';
 import { SignInModule } from './sign-in/sign-in.module';
 import { SignInService } from './sign-in.service';
+import { AuthInterceptor } from './interceptors';
+import { HttpService } from './https/http.service';
 
 const ProductListServiceProvider: Provider = {
   provide: 'ProductListService',
@@ -27,6 +29,17 @@ const SignInServiceProvider: Provider = {
   useClass: SignInService,
 };
 
+const AuthInterceptorProvider: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+  multi: true,
+};
+
+const HttpServiceProvider: Provider = {
+  provide: 'HttpService',
+  useClass: HttpService,
+};
+
 @NgModule({
   declarations: [AppComponent, ProductDetailsComponent, ProductListComponent],
   imports: [
@@ -40,6 +53,8 @@ const SignInServiceProvider: Provider = {
     ProductListServiceProvider,
     ProductDetailServiceProvider,
     SignInServiceProvider,
+    AuthInterceptorProvider,
+    HttpServiceProvider,
   ],
   bootstrap: [AppComponent],
   exports: [],

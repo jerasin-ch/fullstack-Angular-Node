@@ -2,16 +2,21 @@ import { NextFunction, Request, Response, Router } from "express";
 import { myDataSource } from "../app-data-source";
 import { Product } from "../entities";
 import { Repository } from "typeorm";
+import { requireJWTAuth } from "../middleware/auth.middleware";
 
 const router = Router();
 
 const getRepository = (): Repository<Product> =>
   myDataSource.getRepository(Product);
 
-router.get("/", async (req: Request, res: Response): Promise<void> => {
-  const products = await getRepository().find();
-  res.json(products);
-});
+router.get(
+  "/",
+  requireJWTAuth,
+  async (req: Request, res: Response): Promise<void> => {
+    const products = await getRepository().find();
+    res.json(products);
+  }
+);
 
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   const id: number = parseInt(req.params.id);
