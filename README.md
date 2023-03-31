@@ -1,6 +1,6 @@
 ## How To Start Application
 
-### Technology is Used
+### Technology To Use
 
     * Angular
     * Express
